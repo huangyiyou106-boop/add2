@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      (function() {
+        const NativeWebSocket = window.WebSocket;
+        if (!NativeWebSocket) return;
+        
+        const MockWebSocket = function(url, protocols) {
+          const isViteHmr = protocols === 'vite-hmr' || 
+                           (Array.isArray(protocols) && protocols.includes('vite-hmr'));
+          
+          if (isViteHmr) {
+            return {
+              readyState: 0, // CONNECTING
+              addEventListener: function() {},
+              removeEventListener: function() {},
+              send: function() {},
+              close: function() {},
+              onopen: null,
+              onmessage: null,
+              onerror: null,
+              onclose: null,
+              binaryType: 'blob',
+              bufferedAmount: 0,
+              extensions: '',
+              protocol: 'vite-hmr',
+              url: url.toString()
+            };
+          }
+          return new NativeWebSocket(url, protocols);
+        };
+
+        MockWebSocket.prototype = NativeWebSocket.prototype;
+        MockWebSocket.CONNECTING = NativeWebSocket.CONNECTING;
+        MockWebSocket.OPEN = NativeWebSocket.OPEN;
+        MockWebSocket.CLOSING = NativeWebSocket.CLOSING;
+        MockWebSocket.CLOSED = NativeWebSocket.CLOSED;
+        
+        window.WebSocket = MockWebSocket;
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

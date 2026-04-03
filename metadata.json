@@ -1,0 +1,5 @@
+{
+  "name": "Remix: 惊鸟图 (Interactive Flocking Birds)",
+  "description": "一个互动的惊鸟模拟应用。用户可以点击屏幕生成飞鸟，划定‘惊鸟区’触发鸟群惊飞，并享受精美的背景与动态效果。",
+  "requestFramePermissions": []
+}
